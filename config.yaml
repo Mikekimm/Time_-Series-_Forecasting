@@ -1,0 +1,78 @@
+### Configuration for Mobile Traffic Forecasting
+
+data:
+  raw_path: "data/raw/"
+  sample_path: "data/sample/"
+  output_path: "outputs/"
+  
+analysis:
+  # Time constants (10-minute intervals)
+  daily_steps: 144  # 144 × 10-min = 1 day
+  window_size: 288  # 2 days for neural models
+  
+  # Geographic areas to analyze
+  areas:
+    - id: null       # Auto-detect highest traffic area
+      label: "Top traffic area"
+    - id: 4159
+      label: "Area 4159"
+    - id: 4556
+      label: "Area 4556"
+  
+  # Test period (never used in training)
+  test_start: "2013-12-16"
+  test_end: "2013-12-22"
+  
+  # SARIMA configuration
+  sarima:
+    order: [1, 0, 1]           # (p, d, q)
+    seasonal_order: [1, 0, 1]  # (P, D, Q)
+    seasonal_period: 144
+    training_window_days: 14   # Use last 14 days for efficiency
+  
+  # Neural network configuration
+  lstm:
+    hidden_size: 64
+    num_layers: 2
+    dropout: 0.2
+    epochs: 10
+    batch_size: 64
+    learning_rate: 0.001
+    device: "cpu"  # Use "cuda" if GPU available
+  
+  gru:
+    hidden_size: 64
+    num_layers: 2
+    dropout: 0.2
+    epochs: 10
+    batch_size: 64
+    learning_rate: 0.001
+    device: "cpu"
+  
+  # Preprocessing
+  preprocessing:
+    normalization: "minmax"  # Options: minmax, standard, none
+    fill_method: "forward"   # Handle missing values
+    outlier_method: "iqr"    # Detect anomalies with 3xIQR
+  
+  # Memory optimization
+  memory:
+    chunksize: 500000        # Read data in chunks
+    dtype_square_id: "int16" # Save space on IDs
+    dtype_traffic: "float32" # Sufficient precision for CDR counts
+
+visualization:
+  dpi: 150
+  figure_format: "png"
+  style: "whitegrid"
+  colors:
+    sarima: "red"
+    lstm: "darkorange"
+    gru: "seagreen"
+
+metrics:
+  eval_metrics: ["mae", "mape", "rmse"]
+  
+logging:
+  level: "info"
+  save_reports: True
