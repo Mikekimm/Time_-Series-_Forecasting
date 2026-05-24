@@ -4,11 +4,11 @@ Comparative time series analysis and forecasting of mobile network traffic in Mi
 
 ## Project Overview
 
-This project analyzes mobile network traffic (CDR data) from Telecom Italia Mobile covering a 100×100 geographic grid in Milan over two months (November-December 2013). We implement three forecasting models:
+This project looks at real mobile internet traffic data from Telecom Italia Mobile across a 100×100 grid covering the city of Milan over two months, November to December 2013. I built and compared three models to forecast traffic one step ahead at 10-minute intervals across three different geographic areas:
 
-1. **SARIMA** — Classical statistical baseline
-2. **LSTM** — Long Short-Term Memory neural network
-3. **GRU** — Gated Recurrent Unit neural network
+SARIMA — statistical baseline
+LSTM — Long Short-Term Memory network
+GRU — Gated Recurrent Unit network
 
 Each model predicts one-step-ahead (10-minute intervals) traffic for three geographic areas.
 
